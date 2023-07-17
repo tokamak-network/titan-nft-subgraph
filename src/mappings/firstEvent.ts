@@ -14,7 +14,6 @@ import {
   Registered,
   PurchasedOrGaveFree,
   ActiveOrNotNFTS,
-  NFTInfo,
   EventInfo,
 } from '../../generated/schema';
 
@@ -105,6 +104,10 @@ export function handleRegisterd(event: RegisteredEvent): void {
   if (!registered) {
     registered = new Registered(event.params.tokenId.toString());
   }
+  registered.owner = Address.fromString(
+    '0x000000000000000000000000000000000000dEaD'
+  );
+  registered.tokenID = event.params.tokenId;
   registered.data = event.params.data;
   registered.operator = event.params.operator;
   registered.from = event.params.from;
@@ -138,6 +141,7 @@ function updatePurchasedOrGaveFree(
         tokenId
       );
     }
+    purchasedOrGaveFree.tokenID = tokenId;
     let buyers = purchasedOrGaveFree.buyers;
     buyers!.push(buyer);
     purchasedOrGaveFree.buyers = buyers;
@@ -165,6 +169,12 @@ function updatePurchasedOrGaveFree(
     idOrXs![tokenId.toI32()] = 'X';
     activeOrNotNFTS.idOrXs = idOrXs;
   }
-
   activeOrNotNFTS.save();
+
+  for (let i = 0; i < tokenIds.length; i++) {
+    let tokenId = tokenIds[i];
+    let registered = Registered.load(tokenId.toString());
+    registered!.owner = buyer;
+    registered!.save();
+  }
 }

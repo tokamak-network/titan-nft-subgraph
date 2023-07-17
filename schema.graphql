@@ -1,11 +1,14 @@
 type Registered @entity {
   id: ID! # nft token id
+  tokenID: BigInt
   data: Bytes
   operator: Bytes
   from: Bytes
+  owner: Bytes
 }
 type PurchasedOrGaveFree @entity {
   id: ID! # nft token id
+  tokenID: BigInt
   buyers: [Bytes!] # buyer address
   tokenBoughtWiths: [Bytes!] # ton Address
   prices: [BigInt!] # 30 ton
@@ -15,11 +18,7 @@ type ActiveOrNotNFTS @entity {
   id: ID!
   idOrXs: [String!] # nft token id or X if purchased
 }
-type NFTInfo @entity {
-  id: ID! # nft token id
-  owner: Bytes # nft owner
-  data: Bytes # nft data
-}
+
 type EventInfo @entity {
   id: ID!
   startTime: BigInt
