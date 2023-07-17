@@ -3,46 +3,33 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: FirstEvent
+    name: TitanNFTProxy
     network: tokamak-goerli
     source:
-      address: '0x4389666cA00936Df4E48FB3F5B60cC263A66e8E0'
-      abi: FirstEvent
+      address: '0xd76AeBF18FabE5B4cB292a2af70F620022dC8c10'
+      abi: TitanNFT
       startBlock: 20874
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Registerd
-        - ChangedStartTime
-        - Purchased
-        - MultiPurchased
-        - ChangedPrice
-        - ChangedAddress
-        - OwnershipTransferred
-        - GiveFree
-        - MultiGiveFree
+        - Transfer
+        - SetAttribute
+        - Approval
+        - ApprovalForAll
       abis:
-        - name: FirstEvent
-          file: ./abis/FirstEvent.json
+        - name: TitanNFT
+          file: ./abis/TitanNFT.json
+        - name: TitanNFTProxy
+          file: ./abis/TitanNFTProxy.json
       eventHandlers:
-        - event: Registerd(address,address,uint256,bytes)
-          handler: handleRegisterd
-        - event: MultiPurchased(address,uint256[],address,uint256,address)
-          handler: handleMultiPurchased
-        - event: Purchased(address,uint256,address,uint256,address)
-          handler: handlePurchased
-        - event: MultiGiveFree(uint256[],address)
-          handler: handleMultiGiveFree
-        - event: GiveFree(uint256,address)
-          handler: handleGiveFree
-        - event: ChangedStartTime(uint256)
-          handler: handleChangedStartTime
-        - event: ChangedPrice(address,uint256)
-          handler: handleChangedPrice
-        - event: ChangedAddress(address,address)
-          handler: handleChangedAddress
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
-      file: ./src/mappings/firstEvent.ts
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: SetAttribute(uint256,bytes)
+          handler: handleSetAttribute
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalforAll
+      file: ./src/mappings/titanNFT.ts
