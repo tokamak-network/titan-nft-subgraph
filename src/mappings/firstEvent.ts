@@ -45,30 +45,22 @@ export function handleChangedStartTime(event: ChangedStartTime): void {
   eventInfo.save();
 }
 export function handleGiveFree(event: GiveFreeEvent): void {
-  let results = updatePurchasedOrGaveFree(
+  updatePurchasedOrGaveFree(
     [event.params.tokenId],
     event.params.to,
     Address.fromString('0x000000000000000000000000000000000000dEaD'),
     BigInt.fromI32(0),
     Address.fromString('0x000000000000000000000000000000000000dEaD')
   );
-  let purchasedOrGaveFree = results[0];
-  let activeOrNotNFTS = results[1];
-  purchasedOrGaveFree.save();
-  activeOrNotNFTS.save();
 }
 export function handleMultiGiveFree(event: MultiGiveFree): void {
-  let results = updatePurchasedOrGaveFree(
+  updatePurchasedOrGaveFree(
     event.params.tokenIds,
     event.params.to,
     Address.fromString('0x000000000000000000000000000000000000dEaD'),
     BigInt.fromI32(0),
     Address.fromString('0x000000000000000000000000000000000000dEaD')
   );
-  let purchasedOrGaveFree = results[0];
-  let activeOrNotNFTS = results[1];
-  purchasedOrGaveFree.save();
-  activeOrNotNFTS.save();
 }
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {
   let eventInfo = EventInfo.load('0');
@@ -79,41 +71,33 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
   eventInfo.save();
 }
 export function handleMultiPurchased(event: MultiPurchased): void {
-  let results = updatePurchasedOrGaveFree(
+  updatePurchasedOrGaveFree(
     event.params.tokenIds,
     event.params.buyer,
     event.params.token,
     event.params.amount,
     event.params.receipt
   );
-  let purchasedOrGaveFree = results[0];
-  let activeOrNotNFTS = results[1];
-  purchasedOrGaveFree.save();
-  activeOrNotNFTS.save();
 }
 export function handlePurchased(event: Purchased): void {
-  let results = updatePurchasedOrGaveFree(
+  updatePurchasedOrGaveFree(
     [event.params.tokenId],
     event.params.buyer,
     event.params.token,
     event.params.amount,
     event.params.receipt
   );
-  let purchasedOrGaveFree = results[0];
-  let activeOrNotNFTS = results[1];
-  purchasedOrGaveFree.save();
-  activeOrNotNFTS.save();
 }
 export function handleRegisterd(event: RegisteredEvent): void {
   let activeOrNotNFTS = ActiveOrNotNFTS.load('0');
-  let idOrXs;
+  let idOrXs: Array<string>;
   if (!activeOrNotNFTS) {
     activeOrNotNFTS = new ActiveOrNotNFTS('0');
-    idOrXs = new Array<string>(101);
+    idOrXs = new Array<string>(101).fill('0');
   } else {
-    idOrXs = activeOrNotNFTS.idOrXs;
+    idOrXs = activeOrNotNFTS.idOrXs!;
   }
-  idOrXs![event.params.tokenId.toI32()] = event.params.tokenId.toString();
+  idOrXs[event.params.tokenId.toI32()] = event.params.tokenId.toString();
   activeOrNotNFTS.idOrXs = idOrXs;
   activeOrNotNFTS.save();
 
@@ -128,7 +112,7 @@ export function handleRegisterd(event: RegisteredEvent): void {
 }
 
 function initializePurchasedOrGaveFree(
-  purchasedOrGaveFree: PurchasedOrGaveFree,
+  purchasedOrGaveFree: PurchasedOrGaveFree | null,
   tokenId: BigInt
 ): PurchasedOrGaveFree {
   purchasedOrGaveFree = new PurchasedOrGaveFree(tokenId.toString());
@@ -144,14 +128,13 @@ function updatePurchasedOrGaveFree(
   token: Address,
   amount: BigInt,
   receipt: Address
-): [PurchasedOrGaveFree, ActiveOrNotNFTS] {
-  let purchasedOrGaveFree;
+): void {
   for (let i = 0; i < tokenIds.length; i++) {
     let tokenId = tokenIds[i];
-    purchasedOrGaveFree = PurchasedOrGaveFree.load(tokenId.toString());
+    let purchasedOrGaveFree = PurchasedOrGaveFree.load(tokenId.toString());
     if (!purchasedOrGaveFree) {
       purchasedOrGaveFree = initializePurchasedOrGaveFree(
-        purchasedOrGaveFree!,
+        purchasedOrGaveFree,
         tokenId
       );
     }
@@ -167,13 +150,13 @@ function updatePurchasedOrGaveFree(
     let recipients = purchasedOrGaveFree.recipients;
     recipients!.push(receipt);
     purchasedOrGaveFree.recipients = recipients;
+    purchasedOrGaveFree.save();
   }
-
-  let activeOrNotNFTS = ActiveOrNotNFTS.load('0');
-  let idOrXs;
+  let activeOrNotNFTS: ActiveOrNotNFTS | null = ActiveOrNotNFTS.load('0');
+  let idOrXs: string[] | null;
   if (!activeOrNotNFTS) {
     activeOrNotNFTS = new ActiveOrNotNFTS('0');
-    idOrXs = new Array<string>(101);
+    idOrXs = new Array<string>(101).fill('0');
   } else {
     idOrXs = activeOrNotNFTS.idOrXs;
   }
@@ -182,5 +165,6 @@ function updatePurchasedOrGaveFree(
     idOrXs![tokenId.toI32()] = 'X';
     activeOrNotNFTS.idOrXs = idOrXs;
   }
-  return [purchasedOrGaveFree!, activeOrNotNFTS!];
+
+  activeOrNotNFTS.save();
 }

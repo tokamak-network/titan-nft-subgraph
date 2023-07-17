@@ -4,7 +4,7 @@ schema:
 dataSources:
   - kind: ethereum
     name: FirstEvent
-    network: titan-goerli
+    network: tokamak-goerli
     source:
       address: '0x4389666cA00936Df4E48FB3F5B60cC263A66e8E0'
       abi: FirstEvent
