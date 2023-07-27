@@ -1,0 +1,12 @@
+sources:
+  - name: TitanNFTProxy
+    handler:
+      graphql:
+        endpoint: https://thegraph.titan-goerli.tokamak.network:/subgraphs/name/usgeeus/titan-nft-subgraph
+
+plugins:
+  - pollingLive:
+      defaultInterval: 1000
+
+documents:
+  - ./graphql/GetNfts.gql

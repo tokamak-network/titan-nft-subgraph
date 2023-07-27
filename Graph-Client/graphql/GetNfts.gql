@@ -1,0 +1,5 @@
+query GetNFTs @live{
+  nfts {
+    tokenID 
+  }
+}
