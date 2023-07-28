@@ -19,6 +19,7 @@ export function handleTransfer(event: Transfer): void {
   }
   nft.owner = event.params.to;
   nft.tokenID = event.params.tokenId;
+  nft.transferTime = event.block.timestamp;
   let ownerHistory = nft.ownerHistory;
   ownerHistory!.push(event.params.to);
   nft.ownerHistory = ownerHistory;
