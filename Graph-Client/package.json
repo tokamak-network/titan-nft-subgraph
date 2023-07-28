@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node index.ts --transpileOnly",
+    "runTS": "ts-node graphqlTest.ts",
     "codegen": "graphclient build",
     "dev": "graphclient serve-dev"
   },
@@ -13,7 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "@graphprotocol/client-polling-live": "^2.0.0",
-    "@types/node": "^20.4.5"
+    "@types/node": "^20.4.5",
+    "graphql-sse": "^2.2.0"
   },
   "devDependencies": {
     "@graphprotocol/client-cli": "^3.0.0",
