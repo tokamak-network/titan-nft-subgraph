@@ -15,12 +15,17 @@ export function handleTransfer(event: Transfer): void {
   if (!nft) {
     nft = new NFT(event.params.tokenId.toString());
     nft.ownerHistory = [];
+    nft.timeHistory = [];
   }
   nft.owner = event.params.to;
   nft.tokenID = event.params.tokenId;
+  nft.transferTime = event.block.timestamp;
   let ownerHistory = nft.ownerHistory;
   ownerHistory!.push(event.params.to);
   nft.ownerHistory = ownerHistory;
+  let timeHistory = nft.timeHistory;
+  timeHistory!.push(event.block.timestamp);
+  nft.timeHistory = timeHistory;
   nft.save();
 }
 export function handleSetAttribute(event: SetAttribute): void {
@@ -28,6 +33,7 @@ export function handleSetAttribute(event: SetAttribute): void {
   if (!nft) {
     nft = new NFT(event.params.tokenId.toString());
     nft.ownerHistory = [];
+    nft.timeHistory = [];
   }
   nft.attribute = event.params.attribute
   nft.save();

@@ -2,7 +2,9 @@ type NFT @entity {
   id: ID!
   tokenID: BigInt
   owner: Bytes
+  transferTime: BigInt
   ownerHistory: [Bytes!]
+  timeHistory: [BigInt!]
   attribute: Bytes
 }
 
