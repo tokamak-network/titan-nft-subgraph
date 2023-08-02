@@ -107,7 +107,9 @@ export type NFT = {
   id: Scalars['ID'];
   tokenID?: Maybe<Scalars['BigInt']>;
   owner?: Maybe<Scalars['Bytes']>;
+  transferTime?: Maybe<Scalars['BigInt']>;
   ownerHistory?: Maybe<Array<Scalars['Bytes']>>;
+  timeHistory?: Maybe<Array<Scalars['BigInt']>>;
   attribute?: Maybe<Scalars['Bytes']>;
 };
 
@@ -138,12 +140,26 @@ export type NFT_filter = {
   owner_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   owner_contains?: InputMaybe<Scalars['Bytes']>;
   owner_not_contains?: InputMaybe<Scalars['Bytes']>;
+  transferTime?: InputMaybe<Scalars['BigInt']>;
+  transferTime_not?: InputMaybe<Scalars['BigInt']>;
+  transferTime_gt?: InputMaybe<Scalars['BigInt']>;
+  transferTime_lt?: InputMaybe<Scalars['BigInt']>;
+  transferTime_gte?: InputMaybe<Scalars['BigInt']>;
+  transferTime_lte?: InputMaybe<Scalars['BigInt']>;
+  transferTime_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  transferTime_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
   ownerHistory?: InputMaybe<Array<Scalars['Bytes']>>;
   ownerHistory_not?: InputMaybe<Array<Scalars['Bytes']>>;
   ownerHistory_contains?: InputMaybe<Array<Scalars['Bytes']>>;
   ownerHistory_contains_nocase?: InputMaybe<Array<Scalars['Bytes']>>;
   ownerHistory_not_contains?: InputMaybe<Array<Scalars['Bytes']>>;
   ownerHistory_not_contains_nocase?: InputMaybe<Array<Scalars['Bytes']>>;
+  timeHistory?: InputMaybe<Array<Scalars['BigInt']>>;
+  timeHistory_not?: InputMaybe<Array<Scalars['BigInt']>>;
+  timeHistory_contains?: InputMaybe<Array<Scalars['BigInt']>>;
+  timeHistory_contains_nocase?: InputMaybe<Array<Scalars['BigInt']>>;
+  timeHistory_not_contains?: InputMaybe<Array<Scalars['BigInt']>>;
+  timeHistory_not_contains_nocase?: InputMaybe<Array<Scalars['BigInt']>>;
   attribute?: InputMaybe<Scalars['Bytes']>;
   attribute_not?: InputMaybe<Scalars['Bytes']>;
   attribute_gt?: InputMaybe<Scalars['Bytes']>;
@@ -164,7 +180,9 @@ export type NFT_orderBy =
   | 'id'
   | 'tokenID'
   | 'owner'
+  | 'transferTime'
   | 'ownerHistory'
+  | 'timeHistory'
   | 'attribute';
 
 /** Defines the order direction, either ascending or descending */
@@ -476,7 +494,9 @@ export type NFTResolvers<ContextType = MeshContext, ParentType extends Resolvers
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   tokenID?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   owner?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
+  transferTime?: Resolver<Maybe<ResolversTypes['BigInt']>, ParentType, ContextType>;
   ownerHistory?: Resolver<Maybe<Array<ResolversTypes['Bytes']>>, ParentType, ContextType>;
+  timeHistory?: Resolver<Maybe<Array<ResolversTypes['BigInt']>>, ParentType, ContextType>;
   attribute?: Resolver<Maybe<ResolversTypes['Bytes']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

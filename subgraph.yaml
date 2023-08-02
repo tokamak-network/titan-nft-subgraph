@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: TitanNFTProxy
-    network: tokamak-goerli
+    network: titan
     source:
-      address: '0xccbB97CC6346A77F060129B928051C24F7cd68BE'
+      address: '0xF6C0C42a767DFfa1956373052dc53FF8f39c7974'
       abi: TitanNFT
-      startBlock: 21329
+      startBlock: 730
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7

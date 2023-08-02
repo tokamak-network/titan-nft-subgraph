@@ -2,7 +2,7 @@ sources:
   - name: TitanNFTProxy
     handler:
       graphql:
-        endpoint: https://thegraph.titan-goerli.tokamak.network:/subgraphs/name/usgeeus/titan-nft-subgraph
+        endpoint: https://thegraph.titan-goerli.tokamak.network:/subgraphs/name/tokamak/titan-nft-subgraph
 
 plugins:
   - pollingLive:

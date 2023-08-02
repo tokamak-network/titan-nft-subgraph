@@ -95,7 +95,9 @@ type NFT {
   id: ID!
   tokenID: BigInt
   owner: Bytes
+  transferTime: BigInt
   ownerHistory: [Bytes!]
+  timeHistory: [BigInt!]
   attribute: Bytes
 }
 
@@ -126,12 +128,26 @@ input NFT_filter {
   owner_not_in: [Bytes!]
   owner_contains: Bytes
   owner_not_contains: Bytes
+  transferTime: BigInt
+  transferTime_not: BigInt
+  transferTime_gt: BigInt
+  transferTime_lt: BigInt
+  transferTime_gte: BigInt
+  transferTime_lte: BigInt
+  transferTime_in: [BigInt!]
+  transferTime_not_in: [BigInt!]
   ownerHistory: [Bytes!]
   ownerHistory_not: [Bytes!]
   ownerHistory_contains: [Bytes!]
   ownerHistory_contains_nocase: [Bytes!]
   ownerHistory_not_contains: [Bytes!]
   ownerHistory_not_contains_nocase: [Bytes!]
+  timeHistory: [BigInt!]
+  timeHistory_not: [BigInt!]
+  timeHistory_contains: [BigInt!]
+  timeHistory_contains_nocase: [BigInt!]
+  timeHistory_not_contains: [BigInt!]
+  timeHistory_not_contains_nocase: [BigInt!]
   attribute: Bytes
   attribute_not: Bytes
   attribute_gt: Bytes
@@ -152,7 +168,9 @@ enum NFT_orderBy {
   id
   tokenID
   owner
+  transferTime
   ownerHistory
+  timeHistory
   attribute
 }
 
